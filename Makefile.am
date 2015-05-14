@@ -11,13 +11,13 @@ EXTRA_DIST = COPYING.README README.android
 # If git describe works, force autoconf to run in order to make sure we have the
 # current version number from git in the resulting configure script.
 configure-version:
-	-cd $(srcdir) && git describe && autoconf --force
+	-git describe && autoconf --force
 
 # Triggering the README target means we are building a distribution (make dist).
 README: configure-version
 
 ChangeLog:
-	(cd $(srcdir) && git log) > ChangeLog
+	git log > ChangeLog
 
 deb:
 	dpkg-buildpackage -rfakeroot
@@ -31,5 +31,5 @@ release:
 	rm -f ChangeLog
 	$(MAKE) ChangeLog
 	echo "Please edit the NEWS file now..."
-	/usr/bin/editor $(srcdir)/NEWS
+	/usr/bin/editor NEWS
 	$(MAKE) dist
